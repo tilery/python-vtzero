@@ -1,0 +1,6 @@
+[submodule "vendor/vtzero"]
+	path = vendor/vtzero
+	url = https://github.com/mapbox/vtzero
+[submodule "vendor/protozero"]
+	path = vendor/protozero
+	url = https://github.com/mapbox/protozero
