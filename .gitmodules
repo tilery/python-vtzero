@@ -4,3 +4,6 @@
 [submodule "vendor/protozero"]
 	path = vendor/protozero
 	url = https://github.com/mapbox/protozero
+[submodule "vendor/mvt-fixtures"]
+	path = vendor/mvt-fixtures
+	url = https://github.com/mapbox/mvt-fixtures
