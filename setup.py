@@ -1,8 +1,18 @@
 import os
-from setuptools import setup, Extension
+
+from setuptools import setup
+from setuptools.extension import Extension
+from Cython.Build import cythonize
 
 os.environ["CC"] = 'clang++'
 
+ext_options = {
+    'include_dirs': ['./vendor/vtzero/include', './vendor/protozero/include'],
+    'extra_compile_args': ['-O2', '-std=c++14']
+}
+ext_modules = cythonize([
+    Extension('vtzero.tile', ['vtzero/tile.cpp'], **ext_options)
+])
 
 setup(
     name='vtzero',
@@ -23,15 +33,7 @@ setup(
     author_email='yohan.boniface@data.gouv.fr',
     license='MIT',
     packages=['vtzero'],
-    ext_modules=[
-        Extension(
-            'vtzero.tile',
-            ['vtzero/tile.cpp'],
-            extra_compile_args=['-O2', '-std=c++14'],
-            include_dirs=['./vendor/vtzero/include',
-                          './vendor/protozero/include'],
-        )
-    ],
+    ext_modules=ext_modules,
     provides=['vtzero'],
     include_package_data=True
 )
