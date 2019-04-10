@@ -75,10 +75,24 @@ cdef extern from 'vtzero/builder.hpp' namespace 'vtzero':
     cdef cppclass point_feature_builder:
         point_feature_builder()
         point_feature_builder(layer_builder layer)
+        void add_point(const int32_t x, const int32_t y)
         void add_points(uint32_t count)
         void set_point(const point p)
         void set_point(const int32_t x, const int32_t y)
-        void add_property(char* key, char* value)  # Fixme: use template args.
+        void add_property(char* key, char* value)
+        void set_id(const uint64_t id)
+        void commit()
+        void rollback()
+
+    cdef cppclass polygon_feature_builder:
+        polygon_feature_builder()
+        polygon_feature_builder(layer_builder layer)
+        void add_ring(uint32_t count)
+        void close_ring()
+        void set_point(const point p)
+        void set_point(const int32_t x, const int32_t y)
+        void add_property(char* key, char* value)
+        void set_id(const uint64_t id)
         void commit()
         void rollback()
 

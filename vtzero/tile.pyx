@@ -3,8 +3,6 @@ from libcpp.string cimport string
 from libc.stdint cimport uint32_t
 
 
-
-
 cdef class VectorTile:
 
     UNKNOWN = cvtzero.GeomType.UNKNOWN
@@ -98,28 +96,6 @@ cdef class VectorFeature:
     def geometry_type(self):
         return self.feature.geometry_type()
 
-#     @property
-#     def geometry(self):
-#         cdef VectorPoint handler = VectorPoint()
-#         cvtzero.decode_point_geometry(self.feature.geometry(), True, handler)
-#         return handler.data
-
-
-# cdef class VectorPoint:
-
-#     cdef cvtzero.point data
-
-#     cdef points_begin(self, uint32_t count):
-#         self.data.reserve(count)
-
-#     cdef points_point(self, cvtzero.point point):
-#         self.data.push_back(point)
-
-#     cdef points_end(self):
-#         pass
-
-
-
 
 cdef class Tile:
 
@@ -144,8 +120,11 @@ cdef class Point:
 
     cdef cvtzero.point_feature_builder* builder
 
-    def __cinit__(self, Layer layer, int id):
+    def __cinit__(self, Layer layer):
         self.builder = new cvtzero.point_feature_builder(layer.builder[0])
+
+    def add_point(self, x, y):
+        self.builder.add_point(x, y)
 
     def add_points(self, count):
         self.builder.add_points(count)
@@ -155,6 +134,38 @@ cdef class Point:
 
     def add_property(self, char* key, char* value):
         self.builder.add_property(key, value)
+
+    def set_id(self, int id):
+        self.builder.set_id(id)
+
+    def commit(self):
+        self.builder.commit()
+
+    def rollback(self):
+        self.builder.rollback()
+
+
+cdef class Polygon:
+
+    cdef cvtzero.polygon_feature_builder* builder
+
+    def __cinit__(self, Layer layer):
+        self.builder = new cvtzero.polygon_feature_builder(layer.builder[0])
+
+    def add_ring(self, count):
+        self.builder.add_ring(count)
+
+    def close_ring(self, ):
+        self.builder.close_ring()
+
+    def set_point(self, x, y):
+        self.builder.set_point(x, y)
+
+    def add_property(self, char* key, char* value):
+        self.builder.add_property(key, value)
+
+    def set_id(self, int id):
+        self.builder.set_id(id)
 
     def commit(self):
         self.builder.commit()
