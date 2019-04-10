@@ -96,6 +96,17 @@ cdef extern from 'vtzero/builder.hpp' namespace 'vtzero':
         void commit()
         void rollback()
 
+    cdef cppclass linestring_feature_builder:
+        linestring_feature_builder()
+        linestring_feature_builder(layer_builder layer)
+        void add_linestring(uint32_t count)
+        void set_point(const point p)
+        void set_point(const int32_t x, const int32_t y)
+        void add_property(char* key, char* value)
+        void set_id(const uint64_t id)
+        void commit()
+        void rollback()
+
     cdef cppclass tile_builder:
         tile_builder()
         layer_builder_impl* add_layer(layer& layer)

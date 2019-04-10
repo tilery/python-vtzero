@@ -172,3 +172,29 @@ cdef class Polygon:
 
     def rollback(self):
         self.builder.rollback()
+
+
+cdef class Linestring:
+
+    cdef cvtzero.linestring_feature_builder* builder
+
+    def __cinit__(self, Layer layer):
+        self.builder = new cvtzero.linestring_feature_builder(layer.builder[0])
+
+    def add_linestring(self, count):
+        self.builder.add_linestring(count)
+
+    def set_point(self, x, y):
+        self.builder.set_point(x, y)
+
+    def add_property(self, char* key, char* value):
+        self.builder.add_property(key, value)
+
+    def set_id(self, int id):
+        self.builder.set_id(id)
+
+    def commit(self):
+        self.builder.commit()
+
+    def rollback(self):
+        self.builder.rollback()
