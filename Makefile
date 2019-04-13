@@ -1,8 +1,7 @@
 init:
 	git submodule update --init
 
-compile:
-	cython -3 --cplus vtzero/tile.pyx
+compile: 
 	python setup.py build_ext --inplace
 
 test:

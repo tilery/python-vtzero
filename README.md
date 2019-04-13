@@ -8,11 +8,11 @@ Experimental Python wrapper of [vtzero](https://github.com/mapbox/vtzero) a mini
 $ git clone https://github.com/tilery/python-vtzero
 $ cd python-vtzero
 
-# download vendor submodules (protozero, mvt-fixtures, vtzero)
-$ make init
+# Download vendor submodules (protozero, mvt-fixtures, vtzero)
+$ git submodule update --init
 
-# Compile .pyx and build
-$ make compile
+# Compile Cython module
+$ python setup.py build_ext --inplace
 ```
 
 ## Install

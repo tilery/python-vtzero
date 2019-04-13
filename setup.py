@@ -1,3 +1,5 @@
+"""python-vtzero setup."""
+
 import os
 
 from setuptools import setup
@@ -11,7 +13,7 @@ ext_options = {
     'extra_compile_args': ['-O2', '-std=c++14']
 }
 ext_modules = cythonize([
-    Extension('vtzero.tile', ['vtzero/tile.cpp'], **ext_options)
+    Extension('vtzero.tile', ['vtzero/tile.pyx'], language="c++", **ext_options)
 ])
 
 setup(
