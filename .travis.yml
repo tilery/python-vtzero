@@ -1,0 +1,18 @@
+language: python
+python:
+- 3.5
+- 3.6
+before_install:
+- git submodule update --init
+install:
+- pip install cython==0.28 pytest
+- make compile
+- python setup.py develop
+script: py.test -vv
+branches:
+  only:
+    - master
+notifications:
+  email:
+    on_failure: always
+    on_success: never
