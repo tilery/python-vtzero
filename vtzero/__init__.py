@@ -2,4 +2,4 @@
 
 import pkg_resources
 
-version = pkg_resources.require("vtzero")[0].version
+version = pkg_resources.get_distribution(__package__).version
