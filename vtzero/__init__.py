@@ -1,3 +1,5 @@
 """vtzero: a python wrapper of https://github.com/mapbox/vtzero."""
 
-__version__ = "0.0.1"
+import pkg_resources
+
+version = pkg_resources.require("vtzero")[0].version

@@ -4,14 +4,6 @@ from setuptools import setup
 from setuptools.extension import Extension
 from Cython.Build import cythonize
 
-with open("vtzero/__init__.py") as f:
-    for line in f:
-        if line.find("__version__") >= 0:
-            version = line.split("=")[1].strip()
-            version = version.strip('"')
-            version = version.strip("'")
-            continue
-
 ext_options = {
     'include_dirs': ['./vendor/vtzero/include', './vendor/protozero/include'],
     'extra_compile_args': ['-O2', '-std=c++11']
@@ -27,7 +19,7 @@ extra_reqs = {
 
 setup(
     name='vtzero',
-    version=version,
+    version='0.0.1',
     description='Python wrapper for vtzero C++ library.',
     classifiers=[
         'License :: OSI Approved :: MIT License',
