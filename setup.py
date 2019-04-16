@@ -1,24 +1,33 @@
 """python-vtzero setup."""
 
-import os
-
 from setuptools import setup
 from setuptools.extension import Extension
 from Cython.Build import cythonize
 
-os.environ["CC"] = 'clang++'
+with open("vtzero/__init__.py") as f:
+    for line in f:
+        if line.find("__version__") >= 0:
+            version = line.split("=")[1].strip()
+            version = version.strip('"')
+            version = version.strip("'")
+            continue
 
 ext_options = {
     'include_dirs': ['./vendor/vtzero/include', './vendor/protozero/include'],
-    'extra_compile_args': ['-O2', '-std=c++14']
+    'extra_compile_args': ['-O2', '-std=c++11']
 }
 ext_modules = cythonize([
     Extension('vtzero.tile', ['vtzero/tile.pyx'], language="c++", **ext_options)
 ])
 
+extra_reqs = {
+    "test": ["pytest"],
+}
+
+
 setup(
     name='vtzero',
-    version='0.0.1',
+    version=version,
     description='Python wrapper for vtzero C++ library.',
     classifiers=[
         'License :: OSI Approved :: MIT License',
@@ -37,5 +46,6 @@ setup(
     packages=['vtzero'],
     ext_modules=ext_modules,
     provides=['vtzero'],
-    include_package_data=True
+    include_package_data=True,
+    extras_require=extra_reqs,
 )
