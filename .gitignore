@@ -4,3 +4,5 @@ build/
 *.cpp
 *.so
 .cache
+
+.tox/

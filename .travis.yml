@@ -1,17 +1,39 @@
 language: python
-python:
-- 3.5
-- 3.6
+sudo: false
+cache:
+  directories:
+    - ~/.cache/pip
+
+matrix:
+  include:
+    - python: 3.5
+      env: TOXENV=py35
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 3.7
+     env: TOXENV=py37
+
 before_install:
-- git submodule update --init
+  - python -m pip install -U pip
+  - git submodule update --init
 install:
-- pip install cython==0.28 pytest
-- make compile
-- python setup.py develop
-script: py.test -vv
+  - python -m pip install tox
+script:
+  - tox
+
 branches:
   only:
     - master
+
+deploy:
+  provider: pypi
+  on:
+    tags: true
+    branch: master
+  user: tilery
+  password:
+  skip_existing: true
+
 notifications:
   email:
     on_failure: always
