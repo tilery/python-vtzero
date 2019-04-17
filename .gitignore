@@ -5,4 +5,5 @@ build/
 *.so
 .cache
 
+.tox/
 dist/

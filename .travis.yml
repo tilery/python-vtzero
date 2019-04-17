@@ -1,17 +1,36 @@
 language: python
-python:
-- 3.5
-- 3.6
+dist: xenial
+sudo: false
+cache:
+  directories:
+  - "~/.cache/pip"
+matrix:
+  include:
+  - python: 3.5
+    env: TOXENV=py35
+  - python: 3.6
+    env: TOXENV=py36
+  - python: 3.7
+    env: TOXENV=py37
 before_install:
+- python -m pip install -U pip
 - git submodule update --init
 install:
-- pip install cython==0.28 pytest
-- make compile
-- python setup.py develop
-script: py.test -vv
+- python -m pip install tox
+script:
+- tox
 branches:
   only:
-    - master
+  - master
+deploy:
+  provider: pypi
+  on:
+    tags: true
+    branch: master
+  user: vincents
+  password:
+    secure: XabWlCVKhB7fp2mBnWBPELKYft2VqojIAAvYvgCJqbZRCyEsgES3Vl0ROFBK8CkATdQT1w5+vKArg+Z2ysyrz96Rdlqp4oj8y/Ay+ATUZ77av3RG3Yr4QpdYw2HbhGKxQR/8FDYXWUWGv6VKW/Y9SOejmKFpObz1lgJgCrz77UVIZEv9y6tBreD1sCsd6qzmEYNAqkR4C4IXTWW/c769iqcEj12N80tgpyGynHH+Wo5HsACDYuKs8UWIUZjMNcADi1XFJ0xeMKDqMV6LXpVxyLFeI9hnIUwjhTJtNk3bjCZLCQ39H5H3u4inc/jabUTR7JfRVtnULj6d3VslDKzUblYyugbzEIbFRyynuXAMbQkZQG4Id2TzrAMxb9B+fRggTIRbl37gYs35/oLIaAKCMc3tNqo52cOul0TJJtfwgVZkaXX/dAlj7YTZMw9kYnrKh7ab/JJSVPHOCfyfVqjHc1M5f+ZSPC2vv8aVAOlJ4xuB4tYNXyJmnE3+Fw3dHTLo+K0hCF53dvk9yXNWYLsl0bCULrEaUiAH7ir1Rs91se9l7H2gcjrKzSWQvjUh82W83iSPVs3LGg+zvSTP8AdhSQrG37EuTxLWnnsTJj8V5EXu/xnzvfEM+ohQf3QbuJE/ECbh8XL6wbQ7GuYPVbNLbvwGbl/zXXP3wLY5tlxFsao=
+  skip_existing: true
 notifications:
   email:
     on_failure: always
