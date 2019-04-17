@@ -1,2 +1,3 @@
+include vtzero/*.pyx vtzero/*.pxd 
 include vendor/protozero/include/protozero/*.hpp
 include vendor/vtzero/include/vtzero/*.hpp

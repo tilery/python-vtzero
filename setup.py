@@ -19,7 +19,7 @@ extra_reqs = {
 
 setup(
     name='vtzero',
-    version='0.0.1',
+    version='0.0.1b1',
     description='Python wrapper for vtzero C++ library.',
     classifiers=[
         'License :: OSI Approved :: MIT License',
