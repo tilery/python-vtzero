@@ -2,7 +2,25 @@
 
 Experimental Python wrapper of [vtzero](https://github.com/mapbox/vtzero) a minimalist vector tile decoder and encoder in C++
 
-## Build 
+[![Travis Build Status](https://travis-ci.org/tilery/python-vtzero.svg?branch=master)](https://travis-ci.org/tilery/python-vtzero)
+[![Packaging status](https://badge.fury.io/py/python-vtzero.svg)](https://badge.fury.io/py/python-vtzero)
+
+## Requirements
+
+- Python >= 3.5
+- Cython == 0.28
+- gcc/clang++ >= 4.5 (C++11)
+
+## Install 
+
+You can install python-vtzero using pip
+
+```bash
+$ pip install cython==0.28
+$ pip install python-vtzero
+```
+
+or install from source
 
 ```bash
 $ git clone https://github.com/tilery/python-vtzero
@@ -11,13 +29,10 @@ $ cd python-vtzero
 # Download vendor submodules (protozero, mvt-fixtures, vtzero)
 $ git submodule update --init
 
+$ pip install cython==0.28
+
 # Compile Cython module
 $ python setup.py build_ext --inplace
-```
-
-## Install
-
-```bash
 $ pip install -e .
 ```
 
