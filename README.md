@@ -17,7 +17,7 @@ You can install python-vtzero using pip
 
 ```bash
 $ pip install cython==0.28
-$ pip install python-vtzero
+$ pip install vtzero
 ```
 
 or install from source
