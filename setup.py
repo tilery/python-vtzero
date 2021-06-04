@@ -4,6 +4,9 @@ from setuptools import setup
 from setuptools.extension import Extension
 from Cython.Build import cythonize
 
+with open("README.md") as f:
+    long_description = f.read()
+
 ext_options = {
     'include_dirs': ['./vendor/vtzero/include', './vendor/protozero/include'],
     'extra_compile_args': ['-O2', '-std=c++11']
@@ -21,6 +24,8 @@ setup(
     name='vtzero',
     version='0.0.1b1',
     description='Python wrapper for vtzero C++ library.',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
