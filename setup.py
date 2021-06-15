@@ -22,7 +22,6 @@ extra_reqs = {
 
 setup(
     name='vtzero',
-    version='0.0.1b1',
     description='Python wrapper for vtzero C++ library.',
     long_description=long_description,
     long_description_content_type="text/markdown",
