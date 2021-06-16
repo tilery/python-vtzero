@@ -48,6 +48,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install tox setuptools cython>=0.29.23
           git submodule update --init
+          python setup.py build_ext --inplace
 
       - name: Set tag version
         id: tag
