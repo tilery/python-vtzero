@@ -2,8 +2,9 @@
 
 Experimental Python wrapper of [vtzero](https://github.com/mapbox/vtzero) a minimalist vector tile decoder and encoder in C++
 
-[![Travis Build Status](https://travis-ci.org/tilery/python-vtzero.svg?branch=master)](https://travis-ci.org/tilery/python-vtzero)
+[![Status](https://github.com/tilery/python-vtzero/workflows/CI/badge.svg)](https://github.com/tilery/python-vtzero/actions?query=workflow%3ACI)
 [![Packaging status](https://badge.fury.io/py/vtzero.svg)](https://badge.fury.io/py/vtzero)
+
 
 ## Requirements
 
