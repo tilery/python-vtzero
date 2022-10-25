@@ -1,5 +1,10 @@
 ## Release Notes
 
+### 0.0.1b3 - 2022-10-25
+
+- add python 3.9, 3.10, 3.11 support
+- add python wheels
+- update vendor submodules
 
 ### 0.0.1b2 - 2021-06-16
 
