@@ -1,8 +1,8 @@
 # cython: language_level=3
 
-from libc.stdint cimport uint32_t, uint64_t, int32_t
-from libcpp.string cimport string
+from libc.stdint cimport int32_t, uint32_t, uint64_t
 from libcpp cimport bool
+from libcpp.string cimport string
 
 
 cdef extern from 'protozero/pbf_reader.hpp' namespace 'protozero':

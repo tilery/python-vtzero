@@ -2,6 +2,14 @@
 requires = ["setuptools>=40.8.0", "wheel", "Cython>=0.29.23"]
 build-backend = "setuptools.build_meta"
 
-[tool.flake8]
-exclude = ".git,__pycache__,docs/source/conf.py,old,build,dist"
-max-line-length = 90
+[tool.isort]
+profile = "black"
+known_first_party = ["vtzero"]
+default_section = "THIRDPARTY"
+
+[tool.mypy]
+no_strict_optional = "True"
+
+[tool.pydocstyle]
+select = "D1"
+match = "(?!test).*.py"
