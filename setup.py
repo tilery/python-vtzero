@@ -16,7 +16,7 @@ ext_modules = cythonize(
 )
 
 extra_reqs = {
-    "test": ["pytest"],
+    "test": ["pytest", "pytest-cov"],
 }
 
 
