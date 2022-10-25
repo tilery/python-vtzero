@@ -11,59 +11,126 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
+        include:
+          - {name: Windows, python: '3.10', os: windows-latest}
+          - {name: Mac, python: '3.10', os: macos-latest}
+          - {name: 'Ubuntu', python: '3.10', os: ubuntu-latest}
+          - {name: '3.11', python: '3.11.0-rc.2 - 3.11', os: ubuntu-latest}
+          - {name: '3.9', python: '3.9', os: ubuntu-latest}
+          - {name: '3.8', python: '3.8', os: ubuntu-latest}
+          - {name: '3.7', python: '3.7', os: ubuntu-latest}
+          - {name: '3.6', python: '3.6', os: ubuntu-latest}
+          - {name: '3.5', python: '3.5', os: ubuntu-latest}
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install tox
           git submodule update --init
+          python -m pip install -e .["test"]
 
-      # Run tox using the version of Python in `PATH`
-      - name: Run Tox
-        run: tox -e py
+      - name: Run pre-commit
+        if: ${{ matrix.name == 'Ubuntu' }}
+        run: |
+          python -m pip install pre-commit
+          pre-commit run --all-files
 
-  publish:
+      - name: Run Tests
+        run: |
+          python -m pytest --cov vtzero --cov-report xml --cov-report term-missing
+
+      - name: Upload Results
+        if: ${{ matrix.name == 'Ubuntu' }}
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: ${{ matrix.python }}
+          fail_ci_if_error: false
+
+  #######################################################################################
+  # Deploy
+  #######################################################################################
+  build_wheels:
     needs: [tests]
-    runs-on: ubuntu-latest
     if: startsWith(github.event.ref, 'refs/tags') || github.event_name == 'release'
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v3
+
+      # Used to host cibuildwheel
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.x"
+          python-version: '3.10'
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.11.1
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install tox setuptools cython>=0.29.23
           git submodule update --init
-          python setup.py build_ext --inplace
 
-      - name: Set tag version
-        id: tag
-        # https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-
-      - name: Set module version
-        id: module
-        # https://stackoverflow.com/questions/58177786/get-the-current-pushed-tag-in-github-actions
-        run: echo ::set-output name=version::$(python setup.py --version)
-
-      - name: Build and publish
-        if: steps.tag.outputs.tag == steps.module.outputs.version
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          TOXENV: release
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: tox
+          CIBW_SKIP: 'pp*'
+          CIBW_ARCHS_MACOS: auto universal2
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ./wheelhouse
+
+  build_sdist:
+    needs: [tests]
+    if: startsWith(github.event.ref, 'refs/tags') || github.event_name == 'release'
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        name: Install Python
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install numpy Cython
+          git submodule update --init
+
+      - name: Build sdist
+        run: python setup.py sdist
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.tar.gz
+
+  upload_pypi:
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_PASSWORD }}

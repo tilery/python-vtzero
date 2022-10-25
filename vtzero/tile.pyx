@@ -2,9 +2,10 @@
 
 """vtzero.tile module."""
 
-from vtzero cimport cvtzero
-from libcpp.string cimport string
 from libc.stdint cimport uint32_t
+from libcpp.string cimport string
+
+from vtzero cimport cvtzero
 
 
 cdef class VectorTile:

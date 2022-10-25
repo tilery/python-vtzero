@@ -1,17 +1,19 @@
-from vtzero.tile import VectorTile, Tile, Layer, Point, Polygon, Linestring
+"""Example of python-vtzero usage."""
+
+from vtzero.tile import Layer, Linestring, Point, Polygon, Tile, VectorTile
 
 # Create MVT
 tile = Tile()
 
 # Add a layer
-layer = Layer(tile, b'my_layer')
+layer = Layer(tile, b"my_layer")
 
 # Add a point
 feature = Point(layer)
 feature.add_points(1)
 feature.set_point(10, 10)
-feature.add_property(b'foo', b'bar')
-feature.add_property(b'x', b'y')
+feature.add_property(b"foo", b"bar")
+feature.add_property(b"x", b"y")
 feature.commit()
 
 # Add a polygon
