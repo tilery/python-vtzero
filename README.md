@@ -8,7 +8,7 @@ Experimental Python wrapper of [vtzero](https://github.com/mapbox/vtzero) a mini
 
 ## Requirements
 
-- Python >= 3.5
+- Python >= 3.8
 - gcc/clang++ >= 4.5 (C++11)
 
 ## Install
@@ -16,7 +16,7 @@ Experimental Python wrapper of [vtzero](https://github.com/mapbox/vtzero) a mini
 You can install python-vtzero using pip
 
 ```bash
-$ pip install vtzero
+$ python -m pip install vtzero
 ```
 
 or install from source
@@ -30,7 +30,7 @@ $ git submodule update --init
 
 # Compile Cython module
 $ python setup.py build_ext --inplace
-$ pip install -e .
+$ python -m pip install -e .
 ```
 
 ## Example

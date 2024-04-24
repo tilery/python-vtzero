@@ -44,4 +44,5 @@ setup(
     provides=["vtzero"],
     include_package_data=True,
     extras_require=extra_reqs,
+    python_requires=">=3.8",
 )

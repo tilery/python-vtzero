@@ -1,3 +1,5 @@
+"""fixtures."""
+
 import json
 from pathlib import Path
 
@@ -26,6 +28,8 @@ ROOT = Path(__file__).parent.parent / "vendor/mvt-fixtures/fixtures"
 
 @pytest.fixture
 def fixture():
+    """data fixtures."""
+
     def _(id):
         path = ROOT / id
         with (path / "info.json").open("r") as f:
@@ -40,6 +44,7 @@ def fixture():
 
 
 def first_feature(tile):
+    """check and return feature."""
     assert not tile.empty()
     assert len(tile) == 1
     layer = next(tile)
@@ -51,6 +56,7 @@ def first_feature(tile):
 
 
 def test_empty_tile(fixture):
+    """empty tile fixture."""
     info, data, mvt = fixture("001")
     tile = VectorTile(mvt)
     assert tile.empty()
@@ -58,6 +64,7 @@ def test_empty_tile(fixture):
 
 
 def test_single_point_without_id(fixture):
+    """Point."""
     info, data, mvt = fixture("002")
     tile = VectorTile(mvt)
     feature = first_feature(tile)
