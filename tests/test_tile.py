@@ -1,3 +1,5 @@
+"""Test tile encoding."""
+
 from vtzero.tile import Layer, Linestring, Point, Polygon, Tile
 
 

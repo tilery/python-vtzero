@@ -1,5 +1,9 @@
 ## Release Notes
 
+### 0.0.1b4 - 2022-10-25
+
+- add python 3.12 support
+
 ### 0.0.1b3 - 2022-10-25
 
 - add python 3.9, 3.10, 3.11 support
