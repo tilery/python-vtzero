@@ -3,6 +3,7 @@
 ### 0.0.1b4 - 2022-10-25
 
 - add python 3.12 support
+- remove support for python <3.8
 
 ### 0.0.1b3 - 2022-10-25
 

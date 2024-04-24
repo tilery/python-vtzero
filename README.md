@@ -8,7 +8,7 @@ Experimental Python wrapper of [vtzero](https://github.com/mapbox/vtzero) a mini
 
 ## Requirements
 
-- Python >= 3.5
+- Python >= 3.8
 - gcc/clang++ >= 4.5 (C++11)
 
 ## Install
